@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {                   
+            $.getJSON("https://spreadsheets.google.com/feeds/list/1eyb8TqgxwP6cOxX3rl6Lqg6CuNmYDTrrTqjJS9Z_zQQ/od6/public/values?alt=json-in-script&callback=?",
+                function (data) {
+                    $('div#news-list').append('<ul class="items"></ul>');
+                    $.each(data.feed.entry, function (i, entry) {
+                        var item = newsTemplate(entry);
+                        $('.items').append('<li>' + item + '</span></li>');
+                    });
+                });    
+        });
+
+        function newsTemplate(entry) {
+            var item = '<a href="' + entry.gsx$url.$t + '">';
+            item    += '<h3>' + entry.gsx$title.$t +'</h3>';
+            item    += '</a>';
+            item    += '<div>';
+            item    += '<a href="' + entry.gsx$url.$t + '" style="float:left"><img src="' + entry.gsx$urltoimage.$t +'"></a>';
+            item    += '<p>' + entry.gsx$description.$t  + '</p>';
+            item    += '</div>';   
+
+            return item;
+        }
+    </script>
+    <style type="text/css">
+        #news-list {
+            /*width: 800px;*/
+            margin: 5px;
+            border: 1px solid #ccc;            
+        }
+
+        h2 {
+            font: 400 40px/1.5 Helvetica, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            font: 200 18px/1.5 Helvetica, Verdana, sans-serif;
+            border-bottom: 1px solid #ccc;
+            padding-left: 5px;
+            clear: left;
+        }
+
+        li:last-child {
+            border: none;
+        }
+
+        img {
+            height: 100px;
+            border: 1px solid #ccc;
+        }
+
+        li a {
+            text-decoration: none;
+            color: #000;
+            display: block;
+            /*height: 100px;
+            -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+            -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+            -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+            -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+            transition: font-size 0.3s ease, background-color 0.3s ease;*/
+        }
+
+        li a:hover {
+            /*font-size: 30px;*/
+            background: #f6f6f6;
+        }
+
+        li div{
+            min-height: 100px;
+        }
+
+        p.news-header {
+            font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+            background-color: lightgray;
+            margin: 0;
+            padding-left: 5px;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <div id="news-list">
+        <p class="news-header">Welcome to local news!</p>
+    </div>         
+
+</body>
+</html>
